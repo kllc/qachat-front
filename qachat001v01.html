@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+        <script src="//kllc.sharepoint.com///ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.0.min.js"></script>
+        <style><!--
+            div.actions {
+                cursor: default;
+                list-style: none;
+                padding-left: 0;
+                display: block;
+            }
+
+                div.actions .select {
+                    display: inline-block;
+                    line-height: 1;
+                    padding: 10px 0;
+                    vertical-align: middle;
+                }
+                    div.actions .select a {
+                        margin-right: 10px;
+                    }
+
+            .button {
+                background-color: white;
+                border-color: rgba(144, 144, 144, 0.3);
+                color: #444 !important;
+                
+                border-radius: 4px;
+                border-style: solid;
+                border-width: 1px;
+                cursor: pointer;
+                height: 1.5em;
+                letter-spacing: 0.07em;
+                line-height: 1em;
+                font-weight: 400;
+                overflow: hidden;
+                padding: 3px 1em 3px 1em;
+                text-align: center;
+                text-decoration: none;
+                text-overflow: ellipsis;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+
+            .mytext{
+                border:0;border-radius: 10px;padding:10px; height:100%; background:white;font-size: 0.8em;
+            }
+            .text{
+                width:100%;display:flex;flex-direction:column;
+            }
+            .text > p {
+                width:100%;margin-top:5px;margin-bottom:5px;line-height: 13px;font-size: 0.8em;
+            }
+            .text-l{
+                float:left;padding:0 10px;
+            }        
+            .text-r{
+                float:right;padding:0 10px;
+            }
+            .avatar{
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                float:left;
+                padding-right:10px;
+            }
+            .macro{
+                margin-top:5px;width:85%;border-radius:5px;padding:5px;display:flex;
+            }
+            .msj-rta{
+                float:right;background:white;
+            }
+            .msj-rta-message{
+                float:right;background:whitesmoke;
+            }
+            .msj{
+                float:left;background:whitesmoke;
+            }
+            .frame{
+                overflow:hidden;
+            }
+            .frame > div:last-of-type{
+                position:absolute;bottom:0px;width:100%;display:flex;
+            }
+            body > div > div > div:nth-child(2) > span{
+                background: whitesmoke; float:right;padding: 0.5em;font-size: 1em;border-radius: 20%;cursor:pointer;
+            }
+            body {
+                margin:0;
+                font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
+            }
+            .chat-title{
+                height: 50px;
+                line-height: 50px;
+                color: rgb(255, 255, 255);
+                background-color: #fd9535;
+                padding-left: 10px;
+                border-top-left-radius:12px;
+                border-top-right-radius:12px;
+                display: -webkit-box; /* safari, Chrome */
+                display: -moz-box;    /* Firefox */
+                display: -o-box;      /* Opera */
+                display: -ms-box;     /* IE */
+                display: box;
+
+                -webkit-box-align: center; /* safari, Chrome */
+                -moz-box-align: center;    /* Firefox */
+                -o-box-align: center;      /* Opera */
+                -ms-box-align: center;     /* IE */
+                box-align: center;         /* ベンダープレフィックスなし */
+            }
+
+            ul {
+                background:#e0e0de;
+                width:100%;
+                box-sizing:border-box;
+                list-style-type: none;
+                margin:54px 0px 8px 0px;
+                padding:5px 18px;
+                position:absolute;
+                bottom:47px;
+                display:flex;
+                flex-direction: column;
+                top:0;
+                overflow-y:scroll;
+            }
+            .msj:before{
+                width: 0;
+                height: 0;
+                content:"";
+                top:-5px;
+                left:-14px;
+                position:relative;
+                border-style: solid;
+                border-width: 0 13px 13px 0;
+                border-color: transparent whitesmoke transparent transparent;            
+            }
+            .msj-rta:after{
+                width: 0;
+                height: 0;
+                content:"";
+                top:-5px;
+                left:14px;
+                position:relative;
+                border-style: solid;
+                border-width: 13px 13px 0 0;
+                border-color: white transparent transparent transparent;           
+            }  
+            .msj-rta-message:after{
+                width: 0;
+                height: 0;
+                content:"";
+                top:-5px;
+                left:14px;
+                position:relative;
+                border-style: solid;
+                border-width: 13px 13px 0 0;
+                border-color: whitesmoke transparent transparent transparent;           
+            }  
+
+            input:focus{
+                outline: none;
+            }        
+            ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                color: #d4d4d4;
+            }
+            ::-moz-placeholder { /* Firefox 19+ */
+                color: #d4d4d4;
+            }
+            :-ms-input-placeholder { /* IE 10+ */
+                color: #d4d4d4;
+            }
+            :-moz-placeholder { /* Firefox 18- */
+                color: #d4d4d4;
+            }  
+        --></style>
+    </head>
+    <body style="height: 100%;">
+        <div class="frame">
+                <div class="chat-title">
+                        <div><span id="title">QA Chat </span><span id="ad-s" style="font-size: 0.5em;">Powerd By：<a id="ad-a" href="//kllc.sharepoint.com///kllc.jp" target="_blank" style="color:white">QAChat</a></span></div>
+                </div>
+            <ul></ul>
+            <div>
+                <div class="msj-rta-message macro">                        
+                    <div class="text text-r" style="background:whitesmoke !important">
+                            <input type="text" class="mytext" placeholder="Type a message"/>
+                            <div class="actions panel-wrap"></div>
+                    </div> 
+                </div>
+                <div style="padding:5px 0px 5px 5px;margin-top: 5px;">
+                    <span>Send</span>
+                </div>                
+            </div>
+        </div>
+        <div id="jschat-dtag" data-json='{
+            "data":[
+                {
+                    "func":"select",
+                    "q":"なにかご不明な点はありますか？<br />AIがお答えします。",
+                    "a":["はい","いいえ"],
+                    "next":[4,1]
+                },
+                {
+                    "func":"select",
+                    "q":"私(AI)の能力向上のため、チャットをしていただけませんか？",
+                    "a":["はい","いいえ"],
+                    "next":[3,2]
+                },
+                {
+                    "func":"end",
+                    "q":"承知いたしました。それでは、また。"
+                },
+                {
+                    "func":"end",
+                    "q":"ぜひ、なにか話しかけてください。"
+                },
+                {
+                    "func":"end",
+                    "q":"何でもご質問にお答えします。"
+                }
+              ]
+        }'></div>
+        <script>
+            var dtag = document.getElementById('jschat-dtag');
+            var dset = $.parseJSON(dtag.dataset.json);
+            var kbKey;
+            var me = {};
+            var you = {};
+
+            var li = document.createElement("li");
+            li.innerHTML = '<li style="width:100%">' +
+                                '<div class="msj macro">' +
+                                    '<div class="text text-l">' +
+                                        '<img class="img-circle" width="28.55" height="8.1" src="ten.gif" style="padding:10px 20px;"></img>'+
+                                    '</div>' +
+                                '</div>' +
+                            '</li>';
+
+            function getUrlVars()
+            {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for(var i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            }
+
+            //URL パラメータ受け取り
+            var getVar = getUrlVars();
+            if (getVar['bgcolor']) {
+                $(".chat-title").css('background-color',getVar['bgcolor']);
+            }
+            if (getVar['color']) {
+                $(".chat-title").css('color',getVar['color']);
+                $("#ad-a").css('color',getVar['color']);
+            } 
+            if (getVar['kbkey']) {
+                kbKey = getVar['kbkey'];
+            } 
+            if (getVar['avatar']) {
+                you.avatar = decodeURI(getVar['avatar']);
+            }
+            if (getVar['title']) {
+                $("#title").text(decodeURI(getVar['title']) + ' ');
+            } 
+            if (getVar['ad']){
+                $("#ad-a").attr("href", decodeURI(getVar['ad']));
+            } else {
+                var style = '<style type="text/css" id="StyleAd">';
+                    style += '#ad-s { display:none; }';
+                    style += '</style>';
+                    $('head').append(style);
+            } 
+
+            var answerArray = [
+                'はい、そうですね',
+                'そうですよね',
+                'そうですか',
+                'それはいいお話ですね',
+                'そうですよね、やっぱり',
+                'なるほど',
+                'そう思います',
+                'そのとおりです',
+                'それはいいですね',
+                'やはり、そうですか'
+            ];
+
+            //-- No use time. It is a javaScript effect.
+            function insertChat(who, text, time){
+                if (time === undefined){
+                    time = 0;
+                }
+                var control = "";
+                
+                if (who == "me"){
+                    control = '<li style="width:100%">' +
+                                    '<div class="msj-rta macro">' +
+                                        '<div class="text text-r">' +
+                                            '<p>'+ text +'</p>' +
+                                        '</div>' +
+//                                    '<div class="avatar"><img class="img-circle" style="width:100%;" src="'+ me.avatar +'" /></div>' +
+                                    '</div>' +
+                                '</li>';                    
+                }else{
+                        setTimeout(
+                        function(){
+                            li.parentNode.removeChild(li);
+                        }, time );
+                        control = '<li style="width:100%;">' +
+                                        '<div class="msj macro">' 
+
+                        if (you.avatar) {
+                                control +=  '<div class="avatar" style="padding:0px !important"><img class="img-circle" style="width:100%;" src="'+you.avatar+'" /></div>'
+                                        }
+
+                        control +=      '<div class="text text-l">' +
+                                            '<p>'+text+'</p>' +
+                                        '</div>' +
+                                '</li>';
+                }
+                setTimeout(
+                    function(){                        
+                        $("ul").append(control).scrollTop($("ul").prop('scrollHeight'));
+                        if (who == "me"){
+                            setTimeout(
+                                function(){
+                                    $("ul").append(li).scrollTop($("ul").prop('scrollHeight'));
+                                }, 500
+                            )
+                        }
+                    }, time
+                );                
+            }
+
+            function resetChat(){
+                $("ul").empty();
+            }
+
+            $(".mytext").on("keydown", function(e){
+                if (e.which == 13){
+                    var text = $(this).val();
+                    if (text !== ""){
+                        insertChat("me", text);              
+                        $(this).val('');
+                        
+                        $.ajax({
+                            type: 'POST',
+                            url: '//qachatfunction.azurewebsites.net/api/QAChat',
+                            data: '{"question":"'+ text +'","top":10,"key":"'+ kbKey +'"}',
+                            dataType: 'json',
+                            scriptCharset: 'utf-8',
+                            timeout: 3000,
+                            headers: {
+                                'Content-Type': 'application/json; charset=UTF-8'
+                            }
+                        })
+                        .done(function (result) {
+                            if (result.answers[0].score == 0) {
+                                insertChat("you","申し訳ありません。答えられないご質問でした。<br />メールもしくはお電話で問い合わせください。",500);
+                                //insertChat("you",answerArray[Math.floor( Math.random() * 10 )],500);
+                            }
+                            else {
+                                var indexNum;
+                                for (indexNum = 0;indexNum < result.answers.length;indexNum++){
+                                    if ( result.answers[0].score != result.answers[indexNum].score){
+                                        break;
+                                    }
+                                }
+                                indexNum = Math.floor( Math.random() * indexNum )
+                                var funcName = "default";
+                                for (var i = 0;  i < result.answers[indexNum].metadata.length;  i++){
+                                    if (result.answers[indexNum].metadata[i].name == "func")
+                                    {
+                                        funcName = result.answers[indexNum].metadata[i].value;
+                                        break;
+                                    }
+                                }
+                                switch (funcName){
+                                    case "jschat" :
+                                     dset = $.parseJSON(result.answers[indexNum].answer);
+                                     jschat(0);
+                                     break;                                
+                                    default : insertChat("you",result.answers[indexNum].answer,500);break;
+                                }
+                            }
+                        })
+                            .fail(function (result) {
+                                insertChat("you","申し訳ありません。答えられないご質問でした。<br />メールもしくはお電話で問い合わせください。",500);
+                                //insertChat("you",answerArray[Math.floor( Math.random() * 10 )],500);
+                                //insertChat("you","<span style=\"color:red;\">申し訳ありません。<br />ＡＩサービスでエラーが発生しました。<br />" + JSON.stringify(result) + "</span>",2000);
+                        });
+
+                    }
+                }
+            });
+
+            function selectButton(button) {
+                insertChat("me", $(button).text());
+                jschat(parseInt($(button).data('val')));
+                $(button).parent().html("");
+            }
+
+            function jschat(no) {
+                if (dset.data[no].func == "select") {
+                    insertChat("you", dset.data[no].q, 1500);
+                    var tmpElm = document.createElement('div');
+                    tmpElm.className = 'select';
+                    for (let i in dset.data[no].next) {
+                        tmpElm.innerHTML = tmpElm.innerHTML +
+                            '<a class="button" onclick="selectButton(this)" data-val=' +
+                            dset.data[no].next[i]
+                            + '>' +
+                            dset.data[no].a[i]
+                            + '</a>';
+                    }
+                    $(".mytext").hide();
+                    setTimeout(
+                        function () {
+                            $(".actions").append(tmpElm);
+                            $(".actions").show();
+                        }, 1500);
+                } else if (dset.data[no].func == "url") {
+                    insertChat("you", dset.data[no].q, 1500);
+                    setTimeout(
+                        function () {
+                            window.top.location.href = dset.data[no].url;
+                        }, 5000);
+                    $(".actions").hide();
+                    $(".mytext").show();
+                } else if (dset.data[no].func == "end") {
+                    insertChat("you", dset.data[no].q, 1500);
+                    $(".actions").hide();
+                    $(".mytext").show();
+                }
+            }
+
+            $('body > div > div > div:nth-child(2) > span').click(function(){
+                $(".mytext").trigger({type: 'keydown', which: 13, keyCode: 13});
+            })
+
+            //-- Clear Chat
+            resetChat();
+            $("ul").append(li).scrollTop($("ul").prop('scrollHeight'));
+            jschat(0);
+        </script>
+    </body>
+</html>
